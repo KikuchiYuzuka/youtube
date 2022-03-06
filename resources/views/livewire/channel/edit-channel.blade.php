@@ -37,6 +37,13 @@
             <input type="file" wire.model="image">
         </div>
 
+        <div class="form-group">
+            @if ($image)
+                Image Preview
+                <img src="{{ $image->temporaryURL }}" class=image-thumbnail">
+            @endif
+        </div>
+
         @error('image')
         <div class="alert alert-danger">
             {{ $message }}

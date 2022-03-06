@@ -5,10 +5,12 @@ namespace App\Http\Livewire\Channel;
 use App\Models\Channel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditChannel extends Component
 {
     use AuthorizesRequests;
+    use WithFileUploads;
 
     public $channel;
     public $image;
@@ -44,6 +46,12 @@ class EditChannel extends Component
             'description' => $this->channel->description,
         ]);
 
+        if ($this->image) {
+            $image = $this->image->storeAd('images', $this->channel->uid . '.png');
+            $this->channel->update([
+                'image' => $image
+            ]);
+        }
         session()->flash('message', 'Channel updated');
 
         return redirect()->route('channel.edit', ['channel' => $this->channel->slug]);
